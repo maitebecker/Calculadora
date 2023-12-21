@@ -1,0 +1,77 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root{
+    --fonte-principal: "Poppins";
+    --branco: #FFFFFF;
+    --amarelo:  #FB0;
+    --cinza-claro: #363746;
+    --cinza-escuro: #2E2F3E;
+    --cor-fundo: #242530;
+}
+.container{
+    width: 100%;
+    font-size: 24px;
+    font-weight: 400;
+    font-family: var(--fonte-principal);
+    display: flex;
+    justify-content: center;
+}
+.calculator{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 375px;
+    height: 600px;
+    background-color: var(--cor-fundo);
+}
+
+#buttons_container{
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
+}
+
+button{
+    cursor: pointer;
+    background-color: var(--cinza-escuro);
+    border: 0.5px solid #242530;
+    color: var(--branco);
+}
+
+
+#equal_btn{
+    grid-row-start: 4;
+    grid-row-end: 6;
+    grid-column-start: 4;
+    background-color: var(--amarelo);
+}
+
+#operations {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    text-align: end;
+    height: 50%;
+  }
+  
+  #previous_operation {
+    color: var(--cinza-claro);
+    padding: 0.2em;
+    overflow-wrap: break-word;
+    min-height: 1.6em;
+  }
+  
+  #current_operation {
+    color: var(--branco);
+    min-height: 1.6em;
+    font-size: 40px;
+    font-weight: 700;
+    padding: 0.2em;
+    overflow-wrap: break-word;
+  }
+
+  button:hover{
+    border: 0.5px solid var(--cinza-claro);
+  }
