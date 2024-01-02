@@ -1,128 +1,130 @@
-const previousOperationText = document.querySelector('#previous_operation');
-const currentOperationText = document.querySelector('#current_operation');
-const buttons = document.querySelectorAll('#buttons_container');
-let currentOperation;
+const operacaoAnteriorTexto = document.querySelector('#operacao_anterior');
+const operacaoAtualTexto = document.querySelector('#operacao_atual');
+const botoes = document.querySelectorAll('#botoes_container');
+let operacaoAtual;
 
-function addDigit(digit) {
-    if (digit == "." && currentOperationText.innerText.includes(".")) {
+function adicionarDigito(digito) {
+    if (digito == "." && operacaoAtualTexto.innerText.includes(".")) {
         return;
     }
-    currentOperation = digit;
-    updateScreen();
+    operacaoAtual = digito;
+    atualizarTela();
 }
 
-function calculate(operation) {
-    if (currentOperationText.innerText === "" && operation != "C") {
-        if (previousOperationText != "") {
-            changeOperation(operation);
+function calcular(operacao) {
+    if (operacaoAtualTexto.innerText === "" && operacao != "C") {
+        if (operacaoAnteriorTexto != "") {
+            mudarOperacao(operacao);
         }
         return;
     }
-    let operationValue = ""; //resultado
-    let current = +currentOperationText.innerText;
-    let previous = +previousOperationText.innerText.split(" ")[0];
+    let resultado = ""; 
+    let atual = +operacaoAtualTexto.innerText;
+    let anterior = +operacaoAnteriorTexto.innerText.split(" ")[0];
 
-    switch (operation) {
+    switch (operacao) {
         case "+":
-            operationValue = previous + current;
-            updateScreen(operationValue, operation, current, previous)
+            resultado = anterior + atual;
+            atualizarTela(resultado, operacao, atual, anterior)
             break;
         case "-":
-            operationValue = previous - current;
-            updateScreen(operationValue, operation, current, previous)
+            resultado = anterior - atual;
+            atualizarTela(resultado, operacao, atual, anterior)
             break;
         case "X":
-            operationValue = previous * current;
-            updateScreen(operationValue, operation, current, previous)
+            resultado = anterior * atual;
+            atualizarTela(resultado, operacao, atual, anterior)
             break;
         case "/":
-            operationValue = previous / current;
-            updateScreen(operationValue, operation, current, previous)
+            resultado = anterior / atual;
+            atualizarTela(resultado, operacao, atual, anterior)
             break;
         case "%":
-            if (previous != "") {
-                operationValue = (previous / 100) * current;
+            if (anterior != "") {
+                resultado = (anterior / 100) * atual;
             } else {
-                operationValue = (previous / 100);
+                resultado = (anterior / 100);
             }
-            updateScreen(operationValue, operation, current, previous)
+            atualizarTela(resultado, operacao, atual, anterior)
             break;
         case "del":
-            deleteDigit();
+           deletarDigito();
             break;
         case "C":
-            cleanScreen(operationValue);
+            limparTela();
             break;
         case "=":
-           equal();
+           igual();
             break;
         default:
             return;
     }
-    return operationValue;
+    return resultado;
 }
 
 
-function updateScreen(
-    operationValue = null, //resultado da operação
-    operation = null, //operação
-    current = null,
-    previous = null) {
+function atualizarTela(
+    resultado = null, //resultado da operação
+    operacao = null, //operação
+    atual = null,
+    anterior = null) {
 
-    if (operation == null) {
-        currentOperationText.innerText += currentOperation;
+    if (operacao == null) {
+        operacaoAtualTexto.innerText += operacaoAtual;
         return;
     }
-    if (previous === 0) {
-        operationValue = current;
+    if (anterior === 0 || anterior === null) {
+        resultado = atual;
     }
-    if(operation == "%"){
-        previousOperationText.innerText = `${operationValue} ${operation} X`;
+    if(operacao == "%"){
+        operacaoAnteriorTexto.innerText = `${resultado} ${operacao} X`;
     }else{
-         previousOperationText.innerText = `${operationValue} ${operation}`;
+         operacaoAnteriorTexto.innerText = `${resultado} ${operacao}`;
     }
    
-    currentOperationText.innerText = " ";
+    operacaoAtualTexto.innerText = " ";
 
 }
 
-function changeOperation(operation) {
-    const mathOperations = ["+", "-", "X", "/"];
+function mudarOperacao(operacao) {
+    const operacoesMatematicas = ["+", "-", "X", "/", "%"];
 
-    if (!mathOperations.includes(operation)) {
+    if (!operacoesMatematicas.includes(operacao)) {
         return;
     }
-    previousOperationText.innerText = previousOperationText.innerText.slice(0, -1) + operation; //retira ultimo caractere e concatena nova operação
+    operacaoAnteriorTexto.innerText = operacaoAnteriorTexto.innerText.slice(0, -1) + operacao; //retira ultimo caractere e concatena nova operação
 }
 
-function deleteDigit() {
-    if (currentOperationText != "") {
-        currentOperationText.innerText = currentOperationText.innerText.slice(0, -1);
+function deletarDigito() {
+    if (operacaoAtualTexto != "") {
+        operacaoAtualTexto.innerText = operacaoAtualTexto.innerText.slice(0, -1);
     }
 }
 
-function cleanScreen() {
-    currentOperationText.innerText = "";
-    previousOperationText.innerText = "";
+function limparTela() {
+    operacaoAtualTexto.innerText = "";
+    operacaoAnteriorTexto.innerText = "";
 }
 
-function equal(){
-    const operation = previousOperationText.innerText.split(" ")[1];
-    operationValue = calculate(operation);
-    currentOperationText.innerText = operationValue;
-    previousOperationText.innerText = "";
+function igual(){
+    const operacao = operacaoAnteriorTexto.innerText.split(" ")[1];
+    resultado = calcular(operacao);
+    if(resultado != null){
+       operacaoAtualTexto.innerText = resultado; 
+    }
+    operacaoAnteriorTexto.innerText = "";
 }
 
 
-buttons.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-        const value = e.target.value;
+botoes.forEach(bt => {
+    bt.addEventListener("click", (e) => {
+        const valor = e.target.value;
 
-        if (+value >= 0 || value === ".") {
-            addDigit(value);
+        if (+valor >= 0 || valor === ".") {
+            adicionarDigito(valor);
         }
         else {
-            calculate(value);
+            calcular(valor);
         }
     })
 });

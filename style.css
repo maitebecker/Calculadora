@@ -17,7 +17,7 @@
     display: flex;
     justify-content: center;
 }
-.calculator{
+.calculadora{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,7 +26,7 @@
     background-color: var(--cor-fundo);
 }
 
-#buttons_container{
+#botoes_container{
     height: 100%;
     display: grid;
     grid-template-columns: auto auto auto auto;
@@ -41,14 +41,14 @@ button{
 }
 
 
-#equal_btn{
+#igual_bt{
     grid-row-start: 4;
     grid-row-end: 6;
     grid-column-start: 4;
     background-color: var(--amarelo);
 }
 
-#operations {
+#operacoes {
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -56,14 +56,14 @@ button{
     height: 50%;
   }
   
-  #previous_operation {
+  #operacao_anterior {
     color: var(--cinza-claro);
     padding: 0.2em;
     overflow-wrap: break-word;
     min-height: 1.6em;
   }
   
-  #current_operation {
+  #operacao_atual {
     color: var(--branco);
     min-height: 1.6em;
     font-size: 40px;
